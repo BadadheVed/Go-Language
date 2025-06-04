@@ -100,16 +100,19 @@ func performUPDATE() {
 	jsonString := string(jsonData)
 	// convert string to readers
 
-	jsonReader := strings.NewReader(jsonString)
+	jsonReader := strings.NewReader(jsonString) //  this is data ehich you eamt to put and it is
+	// added to the http.NewRequest() this function as the third argument
 	req, err := http.NewRequest(http.MethodPut, myURL, jsonReader)
 	if err != nil {
 		fmt.Println("Error Sending request", err)
+		return
 	}
 
 	req.Header.Set("Content-type", "application/json")
 	// send the request
-	client := http.Client{}
-	res, err := client.Do(req)
+	client := http.Client{} // client is initiated to perform the request
+
+	res, err := client.Do(req) // the client is doing request
 	if err != nil {
 		fmt.Println("Error Sending request", err)
 	}
@@ -124,7 +127,24 @@ func performUPDATE() {
 }
 
 func PerformDelete() {
-	
+	const myURL = "https://jsonplaceholder.typicode.com/todos/1"
+
+	req, err := http.NewRequest(http.MethodDelete, myURL, nil) // in delete request there is nil passed as an argument
+	// request is made till this line
+	if err != nil {
+		fmt.Println("The error si", err.Error())
+		return
+	}
+
+	client := http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println("The error si", err.Error())
+		return
+	}
+	defer res.Body.Close()
+
+	fmt.Println("The Status Code is", res.StatusCode)
 }
 
 func main() {

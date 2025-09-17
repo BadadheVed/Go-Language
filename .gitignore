@@ -1,0 +1,20 @@
+# Compiled binaries and executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Packages
+# Go modules are stored in the Go cache, so you don't need to commit them.
+go.mod
+go.sum
+
+# Temporary files and build artifacts
+*.a
+*.o
+*_test
+
+# IDE and editor files
+.idea/ # for GoLand, IntelliJ
+.vscode/ # for VS Code
+.DS_Store # for macOS

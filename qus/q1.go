@@ -2,29 +2,33 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
-func worker(id int, jobs <-chan int, results chan<- int) {
-	for jobs := range jobs {
-		fmt.Println("Received job with value", jobs)
-		time.Sleep(time.Second * 2)
-		results <- (jobs * (jobs - 1) / 2)
-		fmt.Println("job done with number as", jobs)
+//	func worker(id int, jobs <-chan int, results chan<- int) {
+//		for jobs := range jobs {
+//			fmt.Println("Received job with value", jobs)
+//			time.Sleep(time.Second * 2)
+//			results <- (jobs * (jobs - 1) / 2)
+//			fmt.Println("job done with number as", jobs)
+//		}
+//	}
+func worker(id int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Println("worker ", id, "is running")
+	sum := 0
+	for i := 0; i < 100000000; i++ {
+		sum++
 	}
+	fmt.Println("worker ", id, "is finishd")
 }
+
 func main() {
-	jobs := make(chan int, 5)
-	results := make(chan int, 5)
-	for i := 1; i <= 3; i++ {
-		go worker(i, jobs, results)
+	var wg sync.WaitGroup
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go worker(i, &wg)
 	}
-	arr := []int{1, 2, 3, 4, 5}
-	for i := 0; i < len(arr); i++ {
-		jobs <- arr[i]
-	}
-	close(jobs)
-	for i := 0; i < len(arr); i++ {
-		fmt.Println("Result:", <-results)
-	}
+	wg.Wait()
+	fmt.Println("working of all threads done")
 }

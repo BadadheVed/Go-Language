@@ -23,12 +23,13 @@ func worker(id int, wg *sync.WaitGroup) {
 	fmt.Println("worker ", id, "is finishd")
 }
 
-func main() {
-	var wg sync.WaitGroup
-	for i := 0; i < 5; i++ {
-		wg.Add(1)
-		go worker(i, &wg)
-	}
-	wg.Wait()
-	fmt.Println("working of all threads done")
+func mains() {
+	// var wg sync.WaitGroup
+	// for i := 0; i < 5; i++ {
+	// 	wg.Add(1)
+	// 	go worker(i, &wg)
+	// }
+	// wg.Wait()
+	// fmt.Println("working of all threads done")
+
 }

@@ -29,5 +29,4 @@ func main() {
 	for a := 1; a <= 5; a++ {
 		fmt.Println("Result:", <-results)
 	}
-
 }

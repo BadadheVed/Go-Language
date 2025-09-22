@@ -18,3 +18,4 @@ go.sum
 .idea/ # for GoLand, IntelliJ
 .vscode/ # for VS Code
 .DS_Store # for macOS
+pkg/

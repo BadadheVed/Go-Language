@@ -1,10 +1,28 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/time/rate"
 )
 
+func Limiter(limiter *rate.Limiter) gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		if !limiter.Allow() {
+			c.AbortWithStatusJSON(
+				http.StatusTooManyRequests,
+				gin.H{"error": "rate limit hit"},
+			)
+			return
+		}
+
+		c.Next()
+
+	}
+
+}
 func main() {
 	r := gin.Default()
 

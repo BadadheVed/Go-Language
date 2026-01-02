@@ -1,20 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
 )
 
 func main() {
-	fmt.Println("Hello World")
-	var age int = 25
-	birth := "Hello Birth"
-	fmt.Println(birth)
-	fmt.Println(age)
-	fmt.Println("My Age is", age)
-	var dimeniosn float64 = 64.54654534
-	fmt.Println(dimeniosn)
-	myname := "ved"
-	var suff = 10 
-	fmt.Println(suff)
-	fmt.Println("My name is:-", myname)
+	r := gin.Default()
+
+	limit := rate.NewLimiter(rate.Limit(10.0/60.0), 10)
+
+	r.Use(Limiter(limit))
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+	r.Run(":3000")
 }

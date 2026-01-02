@@ -15,11 +15,11 @@ func counter(id int, wg *sync.WaitGroup) {
 }
 
 func main() {
+
 	var wg sync.WaitGroup
-	for i := 0; i < 3; i++ {
-		wg.Add(1) // addin one thread
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
 		go counter(i, &wg)
 	}
 	wg.Wait()
-	fmt.Println("All the 3 cpu intensive tasks done")
 }
